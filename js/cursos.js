@@ -1,4 +1,4 @@
-// Clase Curso
+// Clase Curso para representar cada curso
 class Curso {
   constructor(id, nombre, precio, imagen, descripcion) {
     this.id = id;
@@ -8,7 +8,8 @@ class Curso {
     this.descripcion = descripcion;
   }
 
-  mostrarEnHTML() {
+  // Método que genera el HTML para mostrar el curso como tarjeta
+  renderizar() {
     const div = document.createElement('div');
     div.classList.add('curso');
     div.innerHTML = `
@@ -22,43 +23,44 @@ class Curso {
   }
 }
 
-// Array de cursos instanciando la clase
-const cursos = [
-  new Curso(1, "Seguridad en Redes", 150, "img/redes.jpg", "Aprende a proteger redes informáticas contra accesos no autorizados y amenazas comunes."),
-  new Curso(2, "Criptografía", 120, "img/criptografia.jpg", "Conoce los fundamentos del cifrado de datos y técnicas para proteger la información."),
-  new Curso(3, "Hacking Ético", 180, "img/hacking.jpg", "Conviértete en un hacker ético y aprende a detectar vulnerabilidades en sistemas."),
-  new Curso(4, "Gestión de Incidentes", 130, "img/incidentes.jpg", "Aprende a responder ante ciberataques de forma organizada y profesional."),
-  new Curso(5, "Análisis de Vulnerabilidades", 140, "img/vulnerabilidades.jpg", "Detecta y evalúa riesgos de seguridad en aplicaciones y sistemas."),
-  new Curso(6, "Seguridad en Aplicaciones Web", 160, "img/aplicaciones.jpg", "Protege tus aplicaciones web contra ataques como XSS, CSRF y SQLi.")
-];
+// Usamos Map para almacenar los cursos con sus IDs como clave
+const cursos = new Map();
+cursos.set(1, new Curso(1, "Seguridad en Redes", 150, "img/redes.jpg", "Aprende a proteger redes informáticas contra accesos no autorizados y amenazas comunes."));
+cursos.set(2, new Curso(2, "Criptografía", 120, "img/criptografia.jpg", "Conoce los fundamentos del cifrado de datos y técnicas para proteger la información."));
+cursos.set(3, new Curso(3, "Hacking Ético", 180, "img/hacking.jpg", "Conviértete en un hacker ético y aprende a detectar vulnerabilidades en sistemas."));
+cursos.set(4, new Curso(4, "Gestión de Incidentes", 130, "img/incidentes.jpg", "Aprende a responder ante ciberataques de forma organizada y profesional."));
+cursos.set(5, new Curso(5, "Análisis de Vulnerabilidades", 140, "img/vulnerabilidades.jpg", "Detecta y evalúa riesgos de seguridad en aplicaciones y sistemas."));
+cursos.set(6, new Curso(6, "Seguridad en Aplicaciones Web", 160, "img/aplicaciones.jpg", "Protege tus aplicaciones web contra ataques como XSS, CSRF y SQLi."));
 
 const cursosContainer = document.getElementById('cursos-container');
 const carritoLista = document.getElementById('carrito-lista');
 const totalSpan = document.getElementById('total');
 let carrito = [];
 
-// Mostrar los cursos en pantalla
+// Mostrar los cursos como tarjetas en pantalla
 cursos.forEach(curso => {
-  cursosContainer.appendChild(curso.mostrarEnHTML());
+  cursosContainer.appendChild(curso.renderizar());
 });
 
-// Función para agregar curso al carrito
+// Función para agregar un curso al carrito
 function agregarAlCarrito(id) {
-  const cursoSeleccionado = cursos.find(curso => curso.id === id);
-  carrito.push(cursoSeleccionado);
-  actualizarCarrito();
+  const cursoSeleccionado = cursos.get(id);
+  if (cursoSeleccionado) {
+    carrito.push(cursoSeleccionado);
+    actualizarCarrito();
+  }
 }
 
-// Función para actualizar la visualización del carrito
+// Actualizar visualización del carrito de compras
 function actualizarCarrito() {
   carritoLista.innerHTML = "";
   let total = 0;
 
-  carrito.forEach(c => {
+  carrito.forEach(curso => {
     const li = document.createElement('li');
-    li.textContent = `${c.nombre} - S/ ${c.precio.toFixed(2)}`;
+    li.textContent = `${curso.nombre} - S/ ${curso.precio.toFixed(2)}`;
     carritoLista.appendChild(li);
-    total += c.precio;
+    total += curso.precio;
   });
 
   totalSpan.textContent = total.toFixed(2);

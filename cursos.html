@@ -11,21 +11,23 @@
     <h1>Cursos de Ciberseguridad</h1>
     <nav>
       <ul>
-          <li><a href="index.html">Inicio</a></li>
-          <li><a href="about.html">Información</a></li>
-          <li><a href="cursos.html">Cursos</a></li>
-          <li><a href="contact.html">Contacto</a></li>
-        </ul>
+        <li><a href="index.html">Inicio</a></li>
+        <li><a href="about.html">Información</a></li>
+        <li><a href="cursos.html" class="active">Cursos</a></li>
+        <li><a href="contact.html">Contacto</a></li>
+      </ul>
     </nav>
   </header>
 
   <main>
+    <!-- Catálogo de Cursos -->
     <section>
       <h2>Catálogo de Cursos</h2>
-      <div id="cursos-container" class="flex-container"></div>
+      <div id="cursos-container" class="flex-container tarjetas-container"></div>
     </section>
 
-    <section>
+    <!-- Carrito de Compras -->
+    <section class="carrito">
       <h2>Carrito de Compras</h2>
       <ul id="carrito-lista"></ul>
       <p><strong>Total:</strong> S/. <span id="total">0.00</span></p>
