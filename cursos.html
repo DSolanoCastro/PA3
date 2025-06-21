@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Cursos de Ciberseguridad</title>
   <link rel="stylesheet" href="css/style.css">
+
 </head>
 <body>
   <header>
@@ -13,24 +14,23 @@
       <ul>
         <li><a href="index.html">Inicio</a></li>
         <li><a href="about.html">Información</a></li>
-        <li><a href="cursos.html" class="active">Cursos</a></li>
+        <li><a href="cursos.html">Cursos</a></li>
         <li><a href="contact.html">Contacto</a></li>
       </ul>
     </nav>
   </header>
 
   <main>
-    <!-- Catálogo de Cursos -->
     <section>
       <h2>Catálogo de Cursos</h2>
-      <div id="cursos-container" class="flex-container tarjetas-container"></div>
+      <div id="cursos-container"></div>
     </section>
 
-    <!-- Carrito de Compras -->
-    <section class="carrito">
+    <section>
       <h2>Carrito de Compras</h2>
       <ul id="carrito-lista"></ul>
       <p><strong>Total:</strong> S/. <span id="total">0.00</span></p>
+      <button onclick="abrirModal()" class="boton">Realizar compra</button>
     </section>
   </main>
 
@@ -38,6 +38,65 @@
     <p>&copy; 2025 Diego Solano. Producto académico Diseño Web.</p>
   </footer>
 
+  <!-- Modal de compra -->
+  <div id="modal-compra" class="modal">
+    <div class="modal-contenido">
+      <span class="cerrar" onclick="cerrarModal()">&times;</span>
+      <h2>Completa tus datos</h2>
+      <form id="form-compra" onsubmit="return validarFormularioCompra(event)">
+        <label for="nombreModal">Nombre:</label>
+        <input type="text" id="nombreModal" name="nombre" placeholder="Escribe tu nombre completo" required>
+
+        <label for="correoModal">Correo:</label>
+        <input type="email" id="correoModal" name="correo" placeholder="ejemplo@correo.com" required>
+
+        <label for="telefonoModal">Teléfono:</label>
+        <input type="tel" id="telefonoModal" name="telefono" placeholder="999999999" pattern="\d{9}" required>
+        <small style="color: #666; display: block; margin-bottom: 10px;">Debe tener exactamente 9 dígitos.</small>
+
+        <label for="comentarioModal">Mensaje adicional:</label>
+        <textarea id="comentarioModal" name="comentario" placeholder="Escribe algún detalle adicional (opcional)" rows="4"></textarea>
+
+        <div id="cursosSeleccionados" style="margin: 10px 0; font-size: 0.95em; color: #333;"></div>
+
+        <button type="submit" class="boton">Enviar</button>
+      </form>
+      <div id="mensaje-confirmacion" style="display:none; text-align:center; margin-top: 20px;">
+        <svg xmlns="http://www.w3.org/2000/svg" width="60" height="60" fill="green" viewBox="0 0 16 16">
+          <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM7 10.414l4.243-4.243-1.414-1.414L7 7.586 6.172 6.758 4.758 8.172 7 10.414z"/>
+        </svg>
+        <p style="font-weight:bold; color:green; font-size:1.1em; margin-top:10px;">
+          ¡Gracias por tu compra! Un asesor se pondrá en contacto contigo pronto.
+        </p>
+      </div>
+    </div>
+  </div>
+
   <script src="js/cursos.js"></script>
+<script>
+  function abrirModal() {
+    if (carrito.length === 0) {
+      alert("No seleccionaste ningún curso.");
+      return;
+    }
+
+    document.getElementById("form-compra").style.display = "block";
+    document.getElementById("mensaje-confirmacion").style.display = "none";
+    mostrarCursosEnModal();
+    document.getElementById("modal-compra").style.display = "block";
+  }
+
+  function cerrarModal() {
+    document.getElementById("modal-compra").style.display = "none";
+  }
+
+  window.onclick = function(event) {
+    const modal = document.getElementById("modal-compra");
+    if (event.target === modal) {
+      cerrarModal();
+    }
+  };
+</script>
+
 </body>
 </html>

@@ -1,67 +1,138 @@
-// Clase Curso para representar cada curso
-class Curso {
-  constructor(id, nombre, precio, imagen, descripcion) {
-    this.id = id;
-    this.nombre = nombre;
-    this.precio = precio;
-    this.imagen = imagen;
-    this.descripcion = descripcion;
+// Array de cursos disponibles
+const cursos = [
+  {
+    id: 1,
+    nombre: "Seguridad en Redes",
+    precio: 120,
+    imagen: "img/redes.jpg",
+    descripcion: "Aprende a proteger redes y sistemas de comunicación."
+  },
+  {
+    id: 2,
+    nombre: "Criptografía",
+    precio: 100,
+    imagen: "img/criptografia.jpg",
+    descripcion: "Cifra y protege tus datos con algoritmos modernos."
+  },
+  {
+    id: 3,
+    nombre: "Hacking Ético",
+    precio: 150,
+    imagen: "img/hacking.jpg",
+    descripcion: "Identifica vulnerabilidades de manera legal y segura."
+  },
+  {
+    id: 4,
+    nombre: "Gestión de Incidentes",
+    precio: 110,
+    imagen: "img/incidentes.jpg",
+    descripcion: "Responde eficazmente ante ciberataques y fallos."
+  },
+  {
+    id: 5,
+    nombre: "Análisis de Vulnerabilidades",
+    precio: 130,
+    imagen: "img/vulnerabilidades.jpg",
+    descripcion: "Evalúa y soluciona debilidades en los sistemas informáticos."
+  },
+  {
+    id: 6,
+    nombre: "Seguridad en Aplicaciones Web",
+    precio: 140,
+    imagen: "img/aplicaciones.jpg",
+    descripcion: "Protege tus aplicaciones web contra amenazas comunes."
   }
-
-  // Método que genera el HTML para mostrar el curso como tarjeta
-  renderizar() {
-    const div = document.createElement('div');
-    div.classList.add('curso');
-    div.innerHTML = `
-      <img src="${this.imagen}" alt="${this.nombre}" class="curso-img">
-      <h3>${this.nombre}</h3>
-      <p>${this.descripcion}</p>
-      <p><strong>Precio:</strong> S/ ${this.precio.toFixed(2)}</p>
-      <button onclick="agregarAlCarrito(${this.id})">Agregar al carrito</button>
-    `;
-    return div;
-  }
-}
-
-// Usamos Map para almacenar los cursos con sus IDs como clave
-const cursos = new Map();
-cursos.set(1, new Curso(1, "Seguridad en Redes", 150, "img/redes.jpg", "Aprende a proteger redes informáticas contra accesos no autorizados y amenazas comunes."));
-cursos.set(2, new Curso(2, "Criptografía", 120, "img/criptografia.jpg", "Conoce los fundamentos del cifrado de datos y técnicas para proteger la información."));
-cursos.set(3, new Curso(3, "Hacking Ético", 180, "img/hacking.jpg", "Conviértete en un hacker ético y aprende a detectar vulnerabilidades en sistemas."));
-cursos.set(4, new Curso(4, "Gestión de Incidentes", 130, "img/incidentes.jpg", "Aprende a responder ante ciberataques de forma organizada y profesional."));
-cursos.set(5, new Curso(5, "Análisis de Vulnerabilidades", 140, "img/vulnerabilidades.jpg", "Detecta y evalúa riesgos de seguridad en aplicaciones y sistemas."));
-cursos.set(6, new Curso(6, "Seguridad en Aplicaciones Web", 160, "img/aplicaciones.jpg", "Protege tus aplicaciones web contra ataques como XSS, CSRF y SQLi."));
+];
 
 const cursosContainer = document.getElementById('cursos-container');
 const carritoLista = document.getElementById('carrito-lista');
 const totalSpan = document.getElementById('total');
 let carrito = [];
 
-// Mostrar los cursos como tarjetas en pantalla
+// Mostrar los cursos en pantalla
 cursos.forEach(curso => {
-  cursosContainer.appendChild(curso.renderizar());
+  const div = document.createElement('div');
+  div.classList.add('curso');
+  div.innerHTML = `
+    <img src="${curso.imagen}" alt="${curso.nombre}" class="curso-img">
+    <h3>${curso.nombre}</h3>
+    <p>${curso.descripcion}</p>
+    <p><strong>Precio:</strong> S/ ${curso.precio.toFixed(2)}</p>
+    <button class="boton" onclick="agregarAlCarrito(${curso.id})">Agregar al carrito</button>
+  `;
+  cursosContainer.appendChild(div);
 });
 
-// Función para agregar un curso al carrito
 function agregarAlCarrito(id) {
-  const cursoSeleccionado = cursos.get(id);
-  if (cursoSeleccionado) {
-    carrito.push(cursoSeleccionado);
+  // Verificar si el curso ya está en el carrito
+  const yaAgregado = carrito.some(curso => curso.id === id);
+  if (yaAgregado) {
+    alert("Este curso ya ha sido agregado al carrito.");
+    return;
+  }
+
+  const cursoSeleccionado = cursos.find(curso => curso.id === id);
+  carrito.push(cursoSeleccionado);
+  actualizarCarrito();
+}
+
+
+function actualizarCarrito() {
+  carritoLista.innerHTML = "";
+  let total = 0;
+  carrito.forEach((curso, index) => {
+    const li = document.createElement('li');
+    li.innerHTML = `${curso.nombre} - S/ ${curso.precio.toFixed(2)} <span class='eliminar' onclick='eliminarCurso(${index})'>❌</span>`;
+    carritoLista.appendChild(li);
+    total += curso.precio;
+  });
+  totalSpan.textContent = total.toFixed(2);
+}
+
+function eliminarCurso(indice) {
+  if (indice >= 0 && indice < carrito.length) {
+    carrito.splice(indice, 1);
     actualizarCarrito();
   }
 }
 
-// Actualizar visualización del carrito de compras
-function actualizarCarrito() {
-  carritoLista.innerHTML = "";
-  let total = 0;
+function contarCursos(index = 0) {
+  return index >= carrito.length ? 0 : 1 + contarCursos(index + 1);
+}
 
-  carrito.forEach(curso => {
-    const li = document.createElement('li');
-    li.textContent = `${curso.nombre} - S/ ${curso.precio.toFixed(2)}`;
-    carritoLista.appendChild(li);
-    total += curso.precio;
-  });
+function mostrarCursosEnModal() {
+  const contenedor = document.getElementById("cursosSeleccionados");
+  if (carrito.length > 0) {
+    const lista = carrito.map(curso => `- ${curso.nombre}`).join("<br>");
+    contenedor.innerHTML = `<strong>Cursos seleccionados:</strong><br>${lista}`;
+  } else {
+    contenedor.innerHTML = "<strong>No has seleccionado ningún curso.</strong>";
+  }
+}
 
-  totalSpan.textContent = total.toFixed(2);
+function validarFormularioCompra(event) {
+  event.preventDefault();
+  const nombre = document.getElementById("nombreModal").value.trim();
+  const correo = document.getElementById("correoModal").value.trim();
+  const telefono = document.getElementById("telefonoModal").value.trim();
+  const esTelefonoValido = /^\d{9}$/.test(telefono);
+
+  if (!nombre || !correo || !esTelefonoValido) {
+    alert("Por favor, completa todos los campos correctamente.");
+    return false;
+  }
+
+  document.getElementById("form-compra").style.display = "none";
+  document.getElementById("mensaje-confirmacion").style.display = "block";
+
+  setTimeout(() => {
+    document.getElementById("form-compra").reset();
+    document.getElementById("form-compra").style.display = "block";
+    document.getElementById("mensaje-confirmacion").style.display = "none";
+    cerrarModal();
+    carrito = [];
+    actualizarCarrito();
+  }, 3000);
+
+  return false;
 }
