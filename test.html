@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Test de Seguridad</title>
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+  <header>
+    <div class="overlay">
+      <h1>Evalúa tus conocimientos en Ciberseguridad</h1>
+      <nav>
+        <ul>
+          <li><a href="index.html">Inicio</a></li>
+          <li><a href="about.html">Información</a></li>
+          <li><a href="contact.html">Contacto</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section>
+      <h2 style="text-align: center;">Test Básico de Ciberseguridad</h2>
+
+      <form id="testForm">
+        <div class="pregunta">
+          <p>1. ¿Qué es una contraseña segura?</p>
+          <label><input type="radio" name="p1" value="a" /> Tu nombre o fecha de nacimiento</label><br />
+          <label><input type="radio" name="p1" value="b" /> Una combinación de letras, números y símbolos</label><br />
+          <label><input type="radio" name="p1" value="c" /> La misma en todos tus sitios</label>
+        </div>
+
+        <div class="pregunta">
+          <p>2. ¿Qué debes hacer si recibes un correo sospechoso?</p>
+          <label><input type="radio" name="p2" value="a" /> Abrirlo y hacer clic por curiosidad</label><br />
+          <label><input type="radio" name="p2" value="b" /> Ignorarlo y reenviarlo a tus amigos</label><br />
+          <label><input type="radio" name="p2" value="c" /> No hacer clic y reportarlo como phishing</label>
+        </div>
+
+        <div class="pregunta">
+          <p>3. ¿Qué es un antivirus?</p>
+          <label><input type="radio" name="p3" value="a" /> Un programa que protege tu dispositivo</label><br />
+          <label><input type="radio" name="p3" value="b" /> Un navegador web</label><br />
+          <label><input type="radio" name="p3" value="c" /> Un tipo de virus</label>
+        </div>
+
+        <div class="pregunta">
+          <p>4. ¿Es recomendable conectarse a redes Wi-Fi públicas sin protección?</p>
+          <label><input type="radio" name="p4" value="a" /> Sí, siempre que sea gratis</label><br />
+          <label><input type="radio" name="p4" value="b" /> No, pueden ser peligrosas</label><br />
+          <label><input type="radio" name="p4" value="c" /> Solo si tienes una contraseña débil</label>
+        </div>
+
+        <div class="pregunta">
+          <p>5. ¿Qué es el phishing?</p>
+          <label><input type="radio" name="p5" value="a" /> Un deporte acuático</label><br />
+          <label><input type="radio" name="p5" value="b" /> Un sistema de autenticación</label><br />
+          <label><input type="radio" name="p5" value="c" /> Un intento de engañarte para robar tus datos</label>
+        </div>
+
+        <button type="button" onclick="evaluarTest()">Enviar respuestas</button>
+      </form>
+
+      <div id="resultadoTest"></div>
+    </section>
+  </main>
+
+  <footer>
+    <p>&copy; 2025 Diego Solano. Proyecto académico sobre Ciberseguridad.</p>
+  </footer>
+
+  <script>
+    function evaluarTest() {
+      const respuestasCorrectas = ['b', 'c', 'a', 'b', 'c'];
+      let score = 0;
+
+      for (let i = 1; i <= 5; i++) {
+        const seleccionada = document.querySelector(`input[name="p${i}"]:checked`);
+        if (seleccionada && seleccionada.value === respuestasCorrectas[i - 1]) {
+          score++;
+        }
+      }
+
+      const resultado = document.getElementById("resultadoTest");
+      resultado.innerHTML = "";
+
+      if (score >= 3) {
+        resultado.innerHTML = `<p>¡Bien hecho! Tu puntaje es ${score}/5.</p>`;
+        setTimeout(() => window.location.href = "index.html", 2000);
+      } else {
+        resultado.innerHTML = `
+          <p>Tu puntaje es ${score}/5. Te recomendamos reforzar tus conocimientos.</p>
+          <div style="margin-top: 15px;">
+            <a href="about.html" style="margin: 5px; display: inline-block; padding: 10px 15px; background: var(--azul-secundario); color: #fff; border-radius: 5px; text-decoration: none;">Leer más información</a>
+            <a href="contact.html" style="margin: 5px; display: inline-block; padding: 10px 15px; background: var(--amarillo-acento); color: #000; border-radius: 5px; text-decoration: none;">Contactar con nosotros</a>
+          </div>
+        `;
+      }
+    }
+  </script>
+</body>
+</html>

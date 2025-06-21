@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="author" content="Diego Solano">
+  <meta name="description" content="Formulario de contacto para consultas sobre ciberseguridad y protección digital.">
+  <meta name="keywords" content="ciberseguridad, formulario de contacto, seguridad digital, protección online">
+  <meta name="robots" content="index, follow">
+  <title>Contacto - Ciberseguridad</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="icon" href="img/favicon.png" type="image/png">
+  <style>
+    .mensaje-exito {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      background-color: #e0ffe0;
+      border: 1px solid #5cb85c;
+      padding: 15px;
+      border-radius: 8px;
+      margin-top: 20px;
+      font-size: 1.1em;
+      animation: aparecer 0.5s ease-in-out;
+    }
+
+    @keyframes aparecer {
+      from { opacity: 0; transform: translateY(-10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+  </style>
+  <script>
+    function mostrarMensajeYRedirigir(event) {
+      event.preventDefault();
+      const mensaje = document.createElement("div");
+      mensaje.className = "mensaje-exito";
+      mensaje.innerHTML = `
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="#28a745" viewBox="0 0 16 16">
+          <path d="M16 2L6.5 13 0 7.5 1.5 6 6.5 11 14.5 0z"/>
+        </svg>
+        ¡Tu mensaje ha sido enviado exitosamente!
+      `;
+      document.querySelector("form").after(mensaje);
+      setTimeout(() => {
+        window.location.href = "index.html";
+      }, 2500);
+    }
+  </script>
+</head>
+<body>
+  <header>
+    <h1>Contáctanos</h1>
+    <nav>
+      <ul>
+        <li><a href="index.html">Inicio</a></li>
+        <li><a href="about.html">Información</a></li>
+        <li><a href="contact.html" class="active">Contacto</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main>
+    <section class="formulario-contacto">
+      <h2>Escríbenos</h2>
+      <form onsubmit="mostrarMensajeYRedirigir(event)">
+        <label for="nombre">Nombre:</label>
+        <input type="text" id="nombre" name="nombre" required placeholder="Escribe tu nombre completo">
+
+        <label for="correo">Correo:</label>
+        <input type="email" id="correo" name="correo" required placeholder="ejemplo@correo.com">
+
+        <label for="telefono">Teléfono:</label>
+        <input type="tel" id="telefono" name="telefono" placeholder="999 999 999">
+
+        <label for="mensaje">Mensaje:</label>
+        <textarea id="mensaje" name="mensaje" rows="5" required placeholder="Escribe tu mensaje aquí"></textarea>
+
+        <button type="submit">Enviar</button>
+      </form>
+    </section>
+  </main>
+
+  <footer>
+    <p>&copy; 2025 Diego Solano. Producto académico Diseño Web.</p>
+  </footer>
+</body>
+</html>
