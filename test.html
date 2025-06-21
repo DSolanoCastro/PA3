@@ -14,6 +14,7 @@
         <ul>
           <li><a href="index.html">Inicio</a></li>
           <li><a href="about.html">Información</a></li>
+          <li><a href="cursos.html">Cursos</a></li>
           <li><a href="contact.html">Contacto</a></li>
         </ul>
       </nav>
@@ -93,8 +94,9 @@
         resultado.innerHTML = `
           <p>Tu puntaje es ${score}/5. Te recomendamos reforzar tus conocimientos.</p>
           <div style="margin-top: 15px;">
-            <a href="about.html" style="margin: 5px; display: inline-block; padding: 10px 15px; background: var(--azul-secundario); color: #fff; border-radius: 5px; text-decoration: none;">Leer más información</a>
-            <a href="contact.html" style="margin: 5px; display: inline-block; padding: 10px 15px; background: var(--amarillo-acento); color: #000; border-radius: 5px; text-decoration: none;">Contactar con nosotros</a>
+            <a href="about.html" style="margin: 5px; display: inline-block; padding: 10px 15px; background: var(--azul-secundario, #007BFF); color: #fff; border-radius: 5px; text-decoration: none;">Leer más información</a>
+            <a href="contact.html" style="margin: 5px; display: inline-block; padding: 10px 15px; background: var(--amarillo-acento, #FFC107); color: #000; border-radius: 5px; text-decoration: none;">Contactar con nosotros</a>
+            <a href="cursos.html" style="margin: 5px; display: inline-block; padding: 10px 15px; background: var(--verde-acento, #28a745); color: #fff; border-radius: 5px; text-decoration: none;">Ir a cursos</a>
           </div>
         `;
       }
